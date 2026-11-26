@@ -6,145 +6,129 @@ export default function App() {
   const [activeDoc, setActiveDoc] = useState(null);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#f7f8fc] text-slate-900">
-      {/* Background decoration */}
-      <div className="pointer-events-none absolute -top-40 -left-40 h-96 w-96 rounded-full bg-indigo-200/30 blur-3xl" />
-      <div className="pointer-events-none absolute top-80 -right-40 h-96 w-96 rounded-full bg-violet-200/30 blur-3xl" />
+    <div className="flex min-h-screen flex-col bg-[#FAF9F6] text-zinc-900 antialiased selection:bg-zinc-900 selection:text-white lg:h-screen lg:flex-row lg:overflow-hidden">
+      {/* LEFT RAIL: Obsidian Sidebar */}
+      <aside className="relative flex w-full shrink-0 flex-col justify-between border-b border-zinc-800/90 bg-[#0C0C0E] px-6 py-6 text-zinc-100 lg:w-[390px] lg:border-r lg:border-b-0 xl:w-[420px]">
+        <div className="pointer-events-none absolute -top-24 -left-24 h-64 w-64 rounded-full bg-indigo-500/15 blur-3xl" />
 
-      {/* Header */}
-      <header className="relative z-10 border-b border-slate-200/70 bg-white/75 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-200">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="23"
-                height="23"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <path d="M14 2v6h6" />
-                <path d="M8 13h8" />
-                <path d="M8 17h6" />
-              </svg>
-            </div>
-
-            <div>
-              <h1 className="text-lg font-bold tracking-tight text-slate-900">
-                RAG AI Assistant
-              </h1>
-              <p className="text-xs text-slate-500">
-                Your documents, understood.
-              </p>
-            </div>
-          </div>
-
-          <div className="hidden items-center gap-2 sm:flex">
-            <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
-              ● Groq AI
-            </span>
-            <span className="rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-700">
-              Local Embeddings
-            </span>
-          </div>
-        </div>
-      </header>
-
-      {/* Main workspace */}
-      <main className="relative z-10 mx-auto max-w-7xl px-5 py-8 sm:px-8 sm:py-10">
-        {/* Page introduction */}
-        <section className="mb-8">
-          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-white/80 px-3 py-1.5 text-xs font-semibold text-indigo-700 shadow-sm">
-            <span className="h-2 w-2 rounded-full bg-indigo-500" />
-            AI-powered document workspace
-          </div>
-
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-            Chat with your{" "}
-            <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
-              PDFs.
-            </span>
-          </h2>
-
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
-            Upload a document, ask questions, and get answers based on its
-            content. Your personal AI-powered reading assistant.
-          </p>
-        </section>
-
-        {/* Workspace cards */}
-        <section className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-12">
-          {/* Upload panel */}
-          <div className="min-w-0 lg:col-span-4">
-            <div className="h-full rounded-3xl border border-slate-200/80 bg-white/90 p-4 shadow-[0_8px_30px_rgba(15,23,42,0.04)] backdrop-blur-sm transition-shadow duration-300 hover:shadow-[0_12px_35px_rgba(15,23,42,0.07)] sm:p-5">
-              <div className="mb-5">
-                <p className="text-xs font-bold uppercase tracking-[0.15em] text-indigo-600">
-                  Step 01
-                </p>
-                <h3 className="mt-1 text-lg font-bold text-slate-900">
-                  Your document
-                </h3>
-                <p className="mt-1 text-sm text-slate-500">
-                  Upload a PDF to get started.
-                </p>
-              </div>
-
-              <FileUpload activeDoc={activeDoc} onUploaded={setActiveDoc} />
-            </div>
-          </div>
-
-          {/* Chat panel */}
-          <div className="min-w-0 lg:col-span-8">
-            <div className="flex h-full min-h-[600px] flex-col rounded-3xl border border-slate-200/80 bg-white/90 p-4 shadow-[0_8px_30px_rgba(15,23,42,0.04)] backdrop-blur-sm transition-shadow duration-300 hover:shadow-[0_12px_35px_rgba(15,23,42,0.07)] sm:p-5">
-              <div className="mb-5 flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.15em] text-violet-600">
-                    Step 02
-                  </p>
-                  <h3 className="mt-1 text-lg font-bold text-slate-900">
-                    Ask anything
-                  </h3>
-                  <p className="mt-1 text-sm text-slate-500">
-                    Have a conversation with your document.
-                  </p>
-                </div>
-
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-50 text-violet-600">
+        <div className="relative z-10 flex flex-col">
+          {/* Brand Mark */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-b from-zinc-700 to-zinc-900 p-[1px] shadow-lg shadow-black/50">
+                <div className="flex h-full w-full items-center justify-center rounded-[11px] bg-[#121215]">
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="21"
-                    height="21"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    className="h-4 w-4 text-indigo-400"
                   >
-                    <path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" />
-                    <path d="M8 10h8" />
-                    <path d="M8 14h5" />
+                    <path d="M12 3v18" />
+                    <path d="m19 9-7 7-7-7" />
                   </svg>
                 </div>
               </div>
 
-              <div className="min-h-0 flex-1">
-                <Chat hasDocument={Boolean(activeDoc)} />
+              <div>
+                <span className="text-sm font-semibold tracking-tight text-white">
+                  Aether<span className="text-zinc-500">.rag</span>
+                </span>
+                <p className="text-[11px] text-zinc-500">
+                  Neural Document Engine
+                </p>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* Footer */}
-        <footer className="mt-8 flex flex-col items-center justify-between gap-2 border-t border-slate-200/70 pt-5 text-xs text-slate-400 sm:flex-row">
-          <p>Built with React, Node.js, LangChain and Groq.</p>
-          <p>AI-powered document question answering.</p>
-        </footer>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-800 bg-zinc-900/90 px-2.5 py-1 text-[11px] font-medium text-zinc-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+              Groq LPU
+            </span>
+          </div>
+
+          {/* Section Title */}
+          <div className="mt-8 mb-5">
+            <h1 className="text-2xl font-medium tracking-tight text-white">
+              Knowledge Base
+            </h1>
+            <p className="mt-1.5 text-xs leading-relaxed text-zinc-400">
+              Index a PDF into local vector memory to synthesize answers with
+              grounded retrieval.
+            </p>
+          </div>
+
+          {/* Dark FileUpload */}
+          <FileUpload activeDoc={activeDoc} onUploaded={setActiveDoc} />
+        </div>
+
+        {/* Bottom Metadata */}
+        <div className="relative z-10 mt-8 hidden border-t border-zinc-800/80 pt-4 lg:block">
+          <div className="grid grid-cols-2 gap-2.5 text-[11px]">
+            <div className="rounded-xl border border-zinc-800/80 bg-[#121215] px-3 py-2">
+              <span className="block text-zinc-500">Embeddings</span>
+              <span className="mt-0.5 block font-medium text-zinc-300">
+                Local Vector Store
+              </span>
+            </div>
+            <div className="rounded-xl border border-zinc-800/80 bg-[#121215] px-3 py-2">
+              <span className="block text-zinc-500">Inference</span>
+              <span className="mt-0.5 block font-medium text-zinc-300">
+                LangChain × Groq
+              </span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      {/* RIGHT CANVAS: Editorial Workspace */}
+      <main className="relative flex min-h-0 min-w-0 flex-1 flex-col bg-[#FAF9F6]">
+        {/* Top Session Bar */}
+        <header className="flex h-16 shrink-0 items-center justify-between border-b border-zinc-200/80 bg-[#FAF9F6]/85 px-6 backdrop-blur-md lg:px-10">
+          <div className="flex min-w-0 items-center gap-3">
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-zinc-400">
+              Session
+            </span>
+            <span className="text-zinc-300">/</span>
+
+            {activeDoc ? (
+              <div className="flex min-w-0 items-center gap-2">
+                <span className="h-2 w-2 shrink-0 rounded-full bg-emerald-500" />
+                <span className="truncate text-sm font-medium text-zinc-900">
+                  {activeDoc.fileName}
+                </span>
+                {typeof activeDoc.chunkCount === "number" && (
+                  <span className="hidden rounded-md border border-zinc-200 bg-white px-2 py-0.5 font-mono text-[11px] text-zinc-500 sm:inline-block">
+                    {activeDoc.chunkCount} chunks
+                  </span>
+                )}
+              </div>
+            ) : (
+              <span className="text-sm text-zinc-400">
+                No document attached
+              </span>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2">
+            {activeDoc && (
+              <button
+                type="button"
+                onClick={() => setActiveDoc(null)}
+                className="rounded-lg border border-zinc-200 bg-white px-2.5 py-1 text-xs font-medium text-zinc-600 transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600"
+              >
+                Clear
+              </button>
+            )}
+            <span className="hidden rounded-md border border-zinc-200/90 bg-white px-2 py-1 font-mono text-[11px] text-zinc-500 shadow-2xs sm:inline-block">
+              RAG v2.0
+            </span>
+          </div>
+        </header>
+
+        {/* Seamless Chat Canvas */}
+        <div className="flex min-h-0 flex-1 flex-col">
+          <Chat hasDocument={Boolean(activeDoc)} />
+        </div>
       </main>
     </div>
   );

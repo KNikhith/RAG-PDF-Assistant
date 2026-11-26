@@ -85,36 +85,12 @@ export default function FileUpload({ activeDoc, onUploaded }) {
     if (bytes < 1024 * 1024) {
       return `${(bytes / 1024).toFixed(1)} KB`;
     }
-
     return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
   };
 
   return (
-    <div className="w-full rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      {/* Header */}
-      <div className="mb-5 flex items-center justify-between">
-        <div>
-          <h2 className="text-base font-bold text-slate-900">Your Document</h2>
-          <p className="mt-1 text-xs text-slate-500">
-            Upload a PDF to start asking questions
-          </p>
-        </div>
-
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.7"
-            className="h-5 w-5"
-          >
-            <path d="M7 3h7l5 5v13H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
-            <path d="M14 3v5h5M9 13h6m-6 4h6" />
-          </svg>
-        </div>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="w-full space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-3.5">
         {/* Dropzone */}
         <div
           onDragOver={(e) => {
@@ -124,10 +100,10 @@ export default function FileUpload({ activeDoc, onUploaded }) {
           onDragLeave={() => setDragging(false)}
           onDrop={handleDrop}
           onClick={() => !uploading && inputRef.current?.click()}
-          className={`flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed px-4 py-8 text-center transition ${
+          className={`group flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed px-4 py-8 text-center transition-all ${
             dragging
-              ? "border-indigo-500 bg-indigo-50"
-              : "border-slate-300 bg-slate-50 hover:border-indigo-400 hover:bg-indigo-50/50"
+              ? "border-indigo-400 bg-indigo-500/10"
+              : "border-zinc-700/90 bg-[#121215] hover:border-zinc-500 hover:bg-[#17171B]"
           } ${uploading ? "cursor-not-allowed opacity-60" : ""}`}
         >
           <input
@@ -140,38 +116,36 @@ export default function FileUpload({ activeDoc, onUploaded }) {
             className="hidden"
           />
 
-          <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-indigo-600 shadow-sm">
+          <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900 text-zinc-300 transition-colors group-hover:border-indigo-500/40 group-hover:text-indigo-400">
             <svg
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="1.7"
-              className="h-6 w-6"
+              className="h-5 w-5"
             >
               <path d="M12 16V4m0 0L7 9m5-5 5 5" />
               <path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
             </svg>
           </div>
 
-          <p className="text-sm font-semibold text-slate-700">
-            {dragging ? "Drop your PDF here" : "Click to browse or drag & drop"}
+          <p className="text-sm font-medium text-zinc-200">
+            {dragging ? "Drop PDF to stage" : "Click to browse or drop PDF"}
           </p>
 
-          <p className="mt-1 text-xs text-slate-400">
-            PDF documents only · Maximum size 10MB
-          </p>
+          <p className="mt-1 text-[11px] text-zinc-500">PDF only · Max 10MB</p>
         </div>
 
-        {/* Selected file */}
+        {/* Selected File Preview */}
         {file && (
-          <div className="flex items-center gap-3 rounded-xl border border-indigo-100 bg-indigo-50/50 p-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-red-500">
+          <div className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-[#141418] p-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-indigo-500/20 bg-indigo-500/10 text-indigo-400">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.7"
-                className="h-5 w-5"
+                className="h-4 w-4"
               >
                 <path d="M7 3h7l5 5v13H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
                 <path d="M14 3v5h5" />
@@ -179,10 +153,10 @@ export default function FileUpload({ activeDoc, onUploaded }) {
             </div>
 
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold text-slate-800">
+              <p className="truncate text-xs font-medium text-zinc-100">
                 {file.name}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-[11px] text-zinc-500">
                 {formatSize(file.size)}
               </p>
             </div>
@@ -194,7 +168,7 @@ export default function FileUpload({ activeDoc, onUploaded }) {
                   setFile(null);
                   if (inputRef.current) inputRef.current.value = "";
                 }}
-                className="rounded-lg p-2 text-slate-400 transition hover:bg-white hover:text-red-500"
+                className="rounded-lg px-2 py-1 text-xs text-zinc-400 transition hover:bg-zinc-800 hover:text-zinc-200"
                 aria-label="Remove selected file"
               >
                 ✕
@@ -203,61 +177,66 @@ export default function FileUpload({ activeDoc, onUploaded }) {
           </div>
         )}
 
-        {/* Progress */}
+        {/* Upload Progress */}
         {uploading && (
-          <div>
-            <div className="mb-2 flex justify-between text-xs text-slate-500">
-              <span>Uploading document...</span>
-              <span>{progress}%</span>
+          <div className="rounded-xl border border-zinc-800 bg-[#121215] p-3">
+            <div className="mb-2 flex justify-between text-[11px] text-zinc-400">
+              <span>Uploading & indexing...</span>
+              <span className="font-mono text-zinc-200">{progress}%</span>
             </div>
 
-            <div className="h-2 overflow-hidden rounded-full bg-slate-100">
+            <div className="h-1.5 overflow-hidden rounded-full bg-zinc-800">
               <div
-                className="h-full rounded-full bg-indigo-600 transition-all duration-300"
+                className="h-full rounded-full bg-indigo-500 transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <p className="mt-2 text-xs text-slate-400">
-              The server may continue indexing after the file upload finishes.
+            <p className="mt-2 text-[11px] text-zinc-500">
+              Server chunking may continue briefly after upload completes.
             </p>
           </div>
         )}
 
-        {/* Submit */}
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={!file || uploading}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-semibold text-zinc-950 shadow-sm transition hover:bg-zinc-200 active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-zinc-800 disabled:text-zinc-500"
         >
           {uploading ? "Processing PDF..." : "Upload & Index PDF"}
         </button>
       </form>
 
-      {/* Error */}
+      {/* Error Message */}
       {error && (
-        <div className="mt-4 rounded-xl border border-red-100 bg-red-50 px-3 py-2.5 text-xs font-medium text-red-600">
+        <div className="rounded-xl border border-rose-500/30 bg-rose-500/10 px-3 py-2.5 text-xs font-medium text-rose-300">
           {error}
         </div>
       )}
 
-      {/* Active document */}
+      {/* Active Indexed Document */}
       {activeDoc && (
-        <div className="mt-5 border-t border-slate-100 pt-4">
-          <div className="mb-2 flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            <span className="text-xs font-semibold text-emerald-700">
-              Currently indexed
+        <div className="border-t border-zinc-800/80 pt-4">
+          <div className="mb-2 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              <span className="text-[11px] font-medium uppercase tracking-wider text-zinc-400">
+                Active Index
+              </span>
+            </div>
+            <span className="rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-300">
+              Ready
             </span>
           </div>
 
-          <div className="flex items-center gap-3 rounded-xl bg-emerald-50/70 p-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white text-emerald-600">
+          <div className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-[#121215] p-3">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-emerald-500/20 bg-emerald-500/10 text-emerald-400">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.7"
-                className="h-5 w-5"
+                className="h-4 w-4"
               >
                 <path d="M7 3h7l5 5v13H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
                 <path d="M14 3v5h5" />
@@ -265,17 +244,13 @@ export default function FileUpload({ activeDoc, onUploaded }) {
             </div>
 
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold text-slate-800">
+              <p className="truncate text-xs font-medium text-zinc-100">
                 {activeDoc.fileName}
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-[11px] text-zinc-500">
                 {activeDoc.chunkCount} chunks indexed
               </p>
             </div>
-
-            <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-semibold text-emerald-700">
-              Ready
-            </span>
           </div>
         </div>
       )}

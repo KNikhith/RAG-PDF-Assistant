@@ -57,85 +57,51 @@ export default function Chat({ hasDocument }) {
     }
   };
 
-  const suggestions = ["Summarize this document", "What are the key points?"];
+  const suggestions = [
+    "Summarize this document",
+    "What are the key points?",
+    "Extract core entities & dates",
+  ];
 
   return (
-    <div className="flex h-[600px] w-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg shadow-slate-200/50">
-      {/* Header */}
-      <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-200">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              className="h-5 w-5"
-            >
-              <path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.64 5.64l2.12 2.12m8.48 8.48 2.12 2.12m0-12.72-2.12 2.12m-8.48 8.48-2.12 2.12" />
-              <circle cx="12" cy="12" r="4" />
-            </svg>
-          </div>
-
-          <div>
-            <h2 className="text-sm font-bold text-slate-900">PDF Assistant</h2>
-            <p className="text-xs text-slate-500">
-              Ask anything about your document
-            </p>
-          </div>
-        </div>
-
-        <div
-          className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium ${
-            hasDocument
-              ? "bg-emerald-50 text-emerald-700"
-              : "bg-amber-50 text-amber-700"
-          }`}
-        >
-          <span
-            className={`h-2 w-2 rounded-full ${
-              hasDocument ? "bg-emerald-500" : "bg-amber-500"
-            }`}
-          />
-          {hasDocument ? "Document ready" : "No document"}
-        </div>
-      </div>
-
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto bg-slate-50/70 px-4 py-6 sm:px-6">
+    <div className="flex h-full min-h-0 w-full flex-col">
+      {/* Scrollable Conversation Area */}
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-8 sm:px-8 lg:px-10">
         {messages.length === 0 ? (
-          <div className="flex h-full flex-col items-center justify-center text-center">
-            <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600">
+          <div className="mx-auto flex h-full max-w-2xl flex-col items-center justify-center text-center">
+            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-zinc-200/90 bg-white text-zinc-900 shadow-2xs">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="1.5"
-                className="h-8 w-8"
+                strokeWidth="1.7"
+                className="h-5 w-5 text-indigo-600"
               >
-                <path d="M7 3h7l5 5v13H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
-                <path d="M14 3v5h5M9 13h6m-6 4h6" />
+                <path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.64 5.64l2.12 2.12m8.48 8.48 2.12 2.12m0-12.72-2.12 2.12m-8.48 8.48-2.12 2.12" />
+                <circle cx="12" cy="12" r="4" />
               </svg>
             </div>
 
-            <h3 className="text-lg font-semibold text-slate-800">
-              Let's explore your PDF
-            </h3>
-
-            <p className="mt-2 max-w-xs text-sm leading-6 text-slate-500">
+            <h2 className="text-2xl font-medium tracking-tight text-zinc-950">
               {hasDocument
-                ? "Your document is ready. Ask a question and I'll find the relevant information."
-                : "Upload a PDF to get started. I'll help you understand its contents."}
+                ? "Ask anything about your PDF"
+                : "Ready when your PDF is"}
+            </h2>
+
+            <p className="mt-2 max-w-md text-sm leading-relaxed text-zinc-500">
+              {hasDocument
+                ? "Your document is indexed in local vector memory. Query specific sections, summaries, or details."
+                : "Upload a PDF in the left sidebar to begin grounded document retrieval."}
             </p>
 
-            <div className="mt-6 flex flex-wrap justify-center gap-2">
+            <div className="mt-7 flex flex-wrap justify-center gap-2">
               {suggestions.map((suggestion) => (
                 <button
                   key={suggestion}
                   type="button"
                   disabled={!hasDocument || loading}
                   onClick={() => setInput(suggestion)}
-                  className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs text-slate-600 transition hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="rounded-full border border-zinc-200/90 bg-white px-3.5 py-1.5 text-xs font-medium text-zinc-700 shadow-2xs transition hover:border-zinc-300 hover:bg-zinc-50 hover:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-45"
                 >
                   {suggestion}
                 </button>
@@ -150,16 +116,16 @@ export default function Chat({ hasDocument }) {
 
             {loading && (
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-xs font-bold text-white">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-zinc-950 text-[11px] font-semibold text-white">
                   AI
                 </div>
 
-                <div className="flex items-center gap-2 rounded-2xl rounded-bl-md border border-slate-200 bg-white px-4 py-3 shadow-sm">
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-indigo-500" />
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-indigo-500 [animation-delay:150ms]" />
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-indigo-500 [animation-delay:300ms]" />
-                  <span className="ml-1 text-xs text-slate-500">
-                    Thinking...
+                <div className="flex items-center gap-1.5 rounded-2xl border border-zinc-200/80 bg-white px-4 py-3 shadow-2xs">
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400 [animation-delay:150ms]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400 [animation-delay:300ms]" />
+                  <span className="ml-1.5 text-xs text-zinc-500">
+                    Retrieving context...
                   </span>
                 </div>
               </div>
@@ -170,11 +136,11 @@ export default function Chat({ hasDocument }) {
         )}
       </div>
 
-      {/* Input */}
-      <div className="border-t border-slate-100 bg-white p-4 sm:px-5">
+      {/* Floating Composer Bar */}
+      <div className="shrink-0 bg-gradient-to-t from-[#FAF9F6] via-[#FAF9F6]/95 to-transparent px-4 pt-2 pb-5 sm:px-8 lg:px-10">
         <form
           onSubmit={handleSend}
-          className="mx-auto flex max-w-3xl items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-2 transition focus-within:border-indigo-400 focus-within:ring-4 focus-within:ring-indigo-50"
+          className="mx-auto flex max-w-3xl items-center gap-2 rounded-2xl border border-zinc-200/90 bg-white p-2 shadow-[0_8px_30px_-10px_rgba(24,24,27,0.08)] transition focus-within:border-zinc-400 focus-within:ring-4 focus-within:ring-zinc-900/5"
         >
           <input
             type="text"
@@ -182,18 +148,18 @@ export default function Chat({ hasDocument }) {
             onChange={(e) => setInput(e.target.value)}
             placeholder={
               hasDocument
-                ? "Ask something about your PDF..."
+                ? "Ask a question about your document..."
                 : "Upload a PDF to start chatting..."
             }
             disabled={!hasDocument || loading}
-            className="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-sm text-slate-700 outline-none placeholder:text-slate-400 disabled:cursor-not-allowed"
+            className="min-w-0 flex-1 bg-transparent px-3 py-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 disabled:cursor-not-allowed"
           />
 
           <button
             type="submit"
             disabled={!hasDocument || !input.trim() || loading}
             aria-label="Send message"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-zinc-950 text-white transition hover:bg-zinc-800 active:scale-95 disabled:cursor-not-allowed disabled:bg-zinc-200 disabled:text-zinc-400"
           >
             <svg
               viewBox="0 0 24 24"
@@ -202,7 +168,7 @@ export default function Chat({ hasDocument }) {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="h-5 w-5"
+              className="h-4 w-4"
             >
               <path d="m22 2-7 20-4-9-9-4Z" />
               <path d="M22 2 11 13" />
@@ -210,8 +176,8 @@ export default function Chat({ hasDocument }) {
           </button>
         </form>
 
-        <p className="mt-2 text-center text-[11px] text-slate-400">
-          AI responses are generated using your uploaded PDF.
+        <p className="mt-2.5 text-center text-[11px] text-zinc-400">
+          Responses are grounded in your indexed PDF chunks.
         </p>
       </div>
     </div>
